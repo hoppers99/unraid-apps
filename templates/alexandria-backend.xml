@@ -15,16 +15,26 @@
 &#xD;
 This handles metadata enrichment, file organisation, and serves the REST API.&#xD;
 &#xD;
-Install alexandria-db first, then this backend, then alexandria (frontend).</Overview>
+REQUIREMENTS:&#xD;
+1. A PostgreSQL container (e.g., postgres:17-alpine from Community Apps)&#xD;
+2. Create a database called 'alexandria' with a user that has full access&#xD;
+3. Install this backend, then alexandria (frontend)&#xD;
+&#xD;
+PostgreSQL Setup:&#xD;
+- Install 'PostgreSQL' or 'postgres' from Community Apps&#xD;
+- Set POSTGRES_DB=alexandria, POSTGRES_USER=alexandria&#xD;
+- Note the container name (e.g., 'PostgreSQL') for the Database Host setting below</Overview>
     <Category>MediaApp:Books MediaServer:Books Productivity:</Category>
     <Icon>https://raw.githubusercontent.com/hoppers99/alexandria/main/docs/logo.png</Icon>
     <ExtraParams>--restart unless-stopped</ExtraParams>
-    <Requires>Requires the alexandria-db PostgreSQL container to be running first.</Requires>
+    <Requires>Requires a PostgreSQL 15+ container. Install PostgreSQL from Community Apps first, create a database called 'alexandria', then configure the connection settings below.</Requires>
     <Config Name="API Port" Target="8000" Default="8000" Mode="tcp" Description="Port for the backend API" Type="Port" Display="always" Required="true"/>
     <Config Name="Library Path" Target="/library" Default="/mnt/user/media/books/" Mode="rw" Description="Path to your book library. This folder should contain (or will be created with) Fiction/, Non-Fiction/, and .returns/ subdirectories." Type="Path" Display="always" Required="true"/>
-    <Config Name="Database Host" Target="ALEXANDRIA_DB_HOST" Default="alexandria-db" Mode="" Description="Hostname of the PostgreSQL container" Type="Variable" Display="advanced" Required="true"/>
-    <Config Name="Database Port" Target="ALEXANDRIA_DB_PORT" Default="5432" Mode="" Description="PostgreSQL port" Type="Variable" Display="advanced" Required="true"/>
-    <Config Name="Database Password" Target="ALEXANDRIA_DB_PASSWORD" Default="alexandria" Mode="" Description="PostgreSQL password (must match alexandria-db)" Type="Variable" Display="always" Required="true" Mask="true"/>
+    <Config Name="Database Host" Target="ALEXANDRIA_DB_HOST" Default="PostgreSQL" Mode="" Description="Container name of your PostgreSQL instance (e.g., 'PostgreSQL' or 'postgres')" Type="Variable" Display="always" Required="true"/>
+    <Config Name="Database Port" Target="ALEXANDRIA_DB_PORT" Default="5432" Mode="" Description="PostgreSQL port (usually 5432)" Type="Variable" Display="advanced" Required="true"/>
+    <Config Name="Database Name" Target="ALEXANDRIA_DB_NAME" Default="alexandria" Mode="" Description="Name of the database in PostgreSQL" Type="Variable" Display="always" Required="true"/>
+    <Config Name="Database User" Target="ALEXANDRIA_DB_USER" Default="alexandria" Mode="" Description="PostgreSQL username" Type="Variable" Display="always" Required="true"/>
+    <Config Name="Database Password" Target="ALEXANDRIA_DB_PASSWORD" Default="" Mode="" Description="PostgreSQL password (must match your PostgreSQL container's POSTGRES_PASSWORD)" Type="Variable" Display="always" Required="true" Mask="true"/>
     <Config Name="Library Root" Target="ALEXANDRIA_LIBRARY_ROOT" Default="/library" Mode="" Description="Library root path inside the container (should match the volume mount)" Type="Variable" Display="advanced-hide" Required="true"/>
     <Config Name="Confidence Threshold" Target="ALEXANDRIA_CONFIDENCE_THRESHOLD" Default="0.8" Mode="" Description="Minimum confidence (0.0-1.0) for automatic classification. Lower values are more permissive." Type="Variable" Display="advanced" Required="false"/>
 </Container>

@@ -13,14 +13,14 @@
     <Project>https://github.com/hoppers99/alexandria</Project>
     <Overview>Alexandria is a digital library management system for ebooks, audiobooks, and other media. Features include automatic metadata enrichment, Dewey Decimal classification, series tracking, reading progress, and a beautiful web interface.&#xD;
 &#xD;
-This template installs all three components: PostgreSQL database, FastAPI backend, and SvelteKit frontend.&#xD;
+This is the web frontend. Install alexandria-backend first.&#xD;
 &#xD;
 After installation, access the web UI at http://[IP]:3000</Overview>
     <Category>MediaApp:Books MediaServer:Books Productivity:</Category>
     <WebUI>http://[IP]:[PORT:3000]</WebUI>
     <Icon>https://raw.githubusercontent.com/hoppers99/alexandria/main/docs/logo.png</Icon>
     <ExtraParams>--restart unless-stopped</ExtraParams>
-    <Requires>This app requires the Alexandria Backend and PostgreSQL containers to be running. Install alexandria-db first, then alexandria-backend, then this frontend.</Requires>
+    <Requires>Requires alexandria-backend to be installed and running first.</Requires>
     <Config Name="Web UI Port" Target="3000" Default="3000" Mode="tcp" Description="Port for the web interface" Type="Port" Display="always" Required="true"/>
     <Config Name="Origin URL" Target="ORIGIN" Default="http://localhost:3000" Mode="" Description="The public URL where Alexandria will be accessed (e.g., http://192.168.1.100:3000 or https://alexandria.example.com). Required for CSRF protection." Type="Variable" Display="always" Required="true"/>
     <Config Name="API Host" Target="API_HOST" Default="alexandria-backend" Mode="" Description="Hostname of the Alexandria backend container" Type="Variable" Display="advanced" Required="true"/>

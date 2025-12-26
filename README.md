@@ -17,9 +17,20 @@ Custom Unraid Community Applications templates for personal projects.
 
 A digital library management system for ebooks, audiobooks, and other media.
 
-- **Backend**: FastAPI application for API and file processing
-- **Frontend**: SvelteKit web interface
-- **Database**: PostgreSQL 17
+**Installation order:**
+
+1. **PostgreSQL** (from Community Apps)
+   - Install any PostgreSQL container (e.g., `postgres:17-alpine`)
+   - Set `POSTGRES_DB=alexandria`, `POSTGRES_USER=alexandria`
+   - Set a secure password and note it for step 2
+
+2. **alexandria-backend**
+   - Configure the database connection to match your PostgreSQL container
+   - Set your library path (e.g., `/mnt/user/media/books/`)
+
+3. **alexandria** (frontend)
+   - Set the Origin URL to your Unraid IP (e.g., `http://192.168.1.100:3000`)
+   - Access the web UI at the configured port
 
 ## Template Development
 
