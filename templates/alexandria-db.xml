@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<Container version="2">
+    <Name>alexandria-db</Name>
+    <Repository>postgres:17-alpine</Repository>
+    <Registry>https://hub.docker.com/_/postgres</Registry>
+    <Branch>
+        <Tag>17-alpine</Tag>
+        <TagDescription>PostgreSQL 17 Alpine (recommended)</TagDescription>
+        <Tag>16-alpine</Tag>
+        <TagDescription>PostgreSQL 16 Alpine</TagDescription>
+        <Tag>latest</Tag>
+        <TagDescription>Latest PostgreSQL version</TagDescription>
+    </Branch>
+    <Network>bridge</Network>
+    <Privileged>false</Privileged>
+    <Support>https://github.com/hoppers99/alexandria/issues</Support>
+    <Project>https://github.com/hoppers99/alexandria</Project>
+    <Overview>PostgreSQL database for Alexandria digital library system.&#xD;
+&#xD;
+Install this container first, then alexandria-backend, then alexandria (frontend).&#xD;
+&#xD;
+The database will be automatically initialised on first run.</Overview>
+    <Category>Tools:Database</Category>
+    <Icon>https://raw.githubusercontent.com/hoppers99/alexandria/main/docs/logo.png</Icon>
+    <ExtraParams>--restart unless-stopped</ExtraParams>
+    <Config Name="Database Storage" Target="/var/lib/postgresql/data" Default="/mnt/user/appdata/alexandria/db/" Mode="rw" Description="Path to store PostgreSQL data files" Type="Path" Display="always" Required="true"/>
+    <Config Name="Database Name" Target="POSTGRES_DB" Default="alexandria" Mode="" Description="Database name" Type="Variable" Display="advanced" Required="true"/>
+    <Config Name="Database User" Target="POSTGRES_USER" Default="alexandria" Mode="" Description="Database username" Type="Variable" Display="advanced" Required="true"/>
+    <Config Name="Database Password" Target="POSTGRES_PASSWORD" Default="alexandria" Mode="" Description="Database password (use the same value in alexandria-backend)" Type="Variable" Display="always" Required="true" Mask="true"/>
+</Container>
