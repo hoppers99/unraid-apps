@@ -15,6 +15,13 @@
 &#xD;
 This handles metadata enrichment, file organisation, and serves the REST API.&#xD;
 &#xD;
+FEATURES:&#xD;
+- Automatic database initialization on first run&#xD;
+- Auto-creates admin user from environment variables&#xD;
+- Multi-user authentication with role-based access control&#xD;
+- Database backup/restore via CLI&#xD;
+- Automatic schema migrations when upgrading&#xD;
+&#xD;
 REQUIREMENTS:&#xD;
 1. A PostgreSQL container (e.g., postgres:17-alpine from Community Apps)&#xD;
 2. Create a database called 'alexandria' with a user that has full access&#xD;
@@ -23,7 +30,14 @@ REQUIREMENTS:&#xD;
 PostgreSQL Setup:&#xD;
 - Install 'PostgreSQL' or 'postgres' from Community Apps&#xD;
 - Set POSTGRES_DB=alexandria, POSTGRES_USER=alexandria&#xD;
-- Note the container name (e.g., 'PostgreSQL') for the Database Host setting below</Overview>
+- Note the container name (e.g., 'PostgreSQL') for the Database Host setting below&#xD;
+&#xD;
+FIRST RUN:&#xD;
+- Set Admin Username and Admin Password (required)&#xD;
+- Generate a Secret Key (use a password manager or: python -c "import secrets; print(secrets.token_urlsafe(32))")&#xD;
+- Database will be automatically initialized&#xD;
+- Admin user will be created automatically&#xD;
+- Change your password after first login!</Overview>
     <Category>MediaApp:Books MediaServer:Books Productivity:</Category>
     <Icon>https://raw.githubusercontent.com/hoppers99/alexandria/main/docs/logo.png</Icon>
     <ExtraParams>--restart unless-stopped</ExtraParams>
@@ -37,4 +51,13 @@ PostgreSQL Setup:&#xD;
     <Config Name="Database Password" Target="ALEXANDRIA_DB_PASSWORD" Default="" Mode="" Description="PostgreSQL password (must match your PostgreSQL container's POSTGRES_PASSWORD)" Type="Variable" Display="always" Required="true" Mask="true"/>
     <Config Name="Library Root" Target="ALEXANDRIA_LIBRARY_ROOT" Default="/library" Mode="" Description="Library root path inside the container (should match the volume mount)" Type="Variable" Display="advanced-hide" Required="true"/>
     <Config Name="Confidence Threshold" Target="ALEXANDRIA_CONFIDENCE_THRESHOLD" Default="0.8" Mode="" Description="Minimum confidence (0.0-1.0) for automatic classification. Lower values are more permissive." Type="Variable" Display="advanced" Required="false"/>
+
+    <!-- Authentication & Security -->
+    <Config Name="Admin Username" Target="ALEXANDRIA_ADMIN_USERNAME" Default="admin" Mode="" Description="Admin username (auto-created on first run). IMPORTANT: Change password after first login!" Type="Variable" Display="always" Required="true" Mask="false"/>
+    <Config Name="Admin Password" Target="ALEXANDRIA_ADMIN_PASSWORD" Default="" Mode="" Description="Admin password (auto-created on first run). IMPORTANT: Use a secure password and change it after first login!" Type="Variable" Display="always" Required="true" Mask="true"/>
+    <Config Name="Admin Email" Target="ALEXANDRIA_ADMIN_EMAIL" Default="" Mode="" Description="Admin email address (optional, but recommended for password recovery features in future releases)" Type="Variable" Display="always" Required="false" Mask="false"/>
+    <Config Name="Secret Key" Target="ALEXANDRIA_SECRET_KEY" Default="" Mode="" Description="Secret key for session encryption. Generate a random string (32+ characters). CRITICAL: Must be set for security!" Type="Variable" Display="always" Required="true" Mask="true"/>
+    <Config Name="Session Expiry (minutes)" Target="ALEXANDRIA_SESSION_EXPIRE_MINUTES" Default="10080" Mode="" Description="Session lifetime in minutes (default: 10080 = 1 week)" Type="Variable" Display="advanced" Required="false" Mask="false"/>
+    <Config Name="Enable Registration" Target="ALEXANDRIA_ENABLE_REGISTRATION" Default="false" Mode="" Description="Allow users to self-register (true/false). Set to false for private libraries." Type="Variable" Display="advanced" Required="false" Mask="false"/>
+    <Config Name="Guest Access" Target="ALEXANDRIA_GUEST_ACCESS" Default="false" Mode="" Description="Allow unauthenticated browsing (true/false). Set to true for public read-only access." Type="Variable" Display="advanced" Required="false" Mask="false"/>
 </Container>
